@@ -24,6 +24,7 @@ import {
   tap,
 } from 'rxjs';
 import { SlideDown, SlideUp } from '../animations/animations';
+import { NgSubscribeContext, NgSubscribeDirective } from '../directives/ng-subscribe.directive';
 
 export interface Item {
   text: number;
@@ -39,7 +40,7 @@ export class SelectComponent implements OnInit, OnDestroy {
   protected showMenu = new EventEmitter<boolean>(false);
   protected animation$ = new BehaviorSubject<'slideDown' | 'slideUp' | 'void'>('void');
   protected combine$ = combineLatest([this.showMenu, this.animation$]).pipe(
-    startWith([false, 'void']),
+    startWith([false, 'void'] as [boolean, 'slideDown' | 'slideUp' | 'void']),
     map(([showMenu, animation]) => ({
       menu: showMenu,
       animation,

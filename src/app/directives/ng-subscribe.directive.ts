@@ -10,8 +10,8 @@ import {
 import { Observable, Subscription } from 'rxjs';
 
 export class NgSubscribeContext<T> {
-  public $implicit: T | undefined;
-  public ngSubscribe: T | undefined ;
+  public $implicit: T = undefined as T;
+  public ngSubscribe: T = undefined as T;
 }
 
 @Directive({
@@ -38,6 +38,13 @@ export class NgSubscribeDirective<T> implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.viewContainer.createEmbeddedView(this.templateRef, this.context);
+  }
+
+  static ngTemplateContextGuard<T>(
+    directive: NgSubscribeDirective<T>,
+    context: NgSubscribeContext<T>
+  ): context is NgSubscribeContext<T> {
+    return true;
   }
 
   ngOnDestroy(): void {
